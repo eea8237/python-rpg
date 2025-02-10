@@ -1,0 +1,68 @@
+Our simple RPG should have a player, various enemies, towns, and various settings for our player to go through.
+Right now, the player plays until they reach level 100, upon which they decide to challenge the dragon lord
+When they game over, they return to a single village
+
+Instead, why don't they go through 5-8 'worlds'? Each has their own village that the player returns to once they lose all their health
+Maybe each has their own items the player can buy to help them?
+And the player can return to previous worlds if they so wish... or new villages just have the previous villages items
+
+so, a player has stats such as a max hp, attack, defense, magic, magic points, and speed. They also have a level, current hp, exp, and gold.
+Their sword, shield, and wand have levels of their own. The player also has a catalogue of items they can find to aid them in their quest.
+They also have temporary versions of their stats that disappear after a battle ends.
+
+The player will encounter various monsters during their quest. Monsters have the same stats as the player. Different species have different skills
+that use magic instead of attack and can leave various status effects on the player. Monsters also have elements that change what their basic attack is.
+By default, all elements deal more damage to a nonelemental
+
+Status effects include Weaken (lowers attack), Decay (lowers defense), Slow (lowers speed), Disquiet (lowers magic), Poison (lowers HP per turn) and Freeze (skips a turn)
+Positive status effects do the opposite of this.
+Status effects heal after a certain amount of turns.
+
+Elements include Fire, Water, Plant, Earth, Lightning, Air, Light, Dark
+    Water --> Fire --> Plant --> Earth --> Air --> Lightning -->
+    Light <--> Dark; Light resists Earth, Air, and Lightning, Dark resists Water, Fire, and Plant
+    All --> Nonelemental
+
+During a quest, the player travels through the wilds and encounters either monsters, fairy fountains, wandering merchants, a rest spot, or treasure. Monsters cause a battle to start,
+fairy fountains heal the player to full health, merchants offer a limited selection of disposable items, and treasure gives the player money
+Rest spots allow the player to use items they bought.
+
+Items include potions and temporary boosts to stats.
+Permanent items include:
+    bubble that prevents effects until the first damaging attack
+    gold charm that increases the gold earned from battles
+    lucky charm that increases the chance of a critical hit
+    exp charm that boosts exp earned from battles
+    silent boots that make the player always able to flee from a battle (or doubles chance of fleeing)
+    charms that permanently boost stats
+    charms that give the player certain skills
+    charms that make the player resist certain types
+    armors that make the player certain elements
+    weapons that change the element of the player's default attack
+    charm that revives the player once when their HP is reduced to 0 
+    keys that allow the player to fight the area's boss
+        These only have a chance of dropping once the player's fought a certain amount of monsters in an area
+        drop chance increases the more monsters the player fights after that
+        Once the player has a boss key, they can't get any more
+        
+During a quest, the player has the option to continue in the wilderness, return back to a village, or check their stats.
+
+During a battle, the player can either attack, defend, use a skill, use an item, or run.
+    Attacking deals damage of the player's element and is affected by their sword level and attack
+    Defending reduces damage from enemies and is affected by the player's shield
+    Skills are special attacks that depend on the player's element and available skills, and depend on the player's magic and wand level
+    Items are items the player has collected
+    Running depends on the player's speed compared to the monster's speed, plus the presence of silent boots
+The player takes their turn, then the monster takes theirs. Repeat until one party has their HP reduced to 0. If the player wins, the monster
+drops gold and possibly an item, and the player gets exp. If the player loses, they lose gold (if they have any) and are hauled back to the village
+for the world they're in.
+
+When the player finishes the final world, they gain access to the Dragon Lord's castle and need to search for the boss key for the Dragon Lord.
+
+
+Water --> Fire --> Plant --> Earth --> Air --> Lightning -->
+        Light <--> Dark; Light resists Earth, Air, and Lightning, Dark resists Water, Fire, and Plant
+        All --> Nonelemental
+
+Each world should have a list of monsters with specific traits that can appear
+    (probably defined in monster)
