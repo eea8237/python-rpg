@@ -101,6 +101,12 @@ class Entity:
     
     def get_hp(self):
         return self._stats[HP]
+    def get_mp(self):
+        return self._stats[MP]
+    def get_hp_string(self):
+        return str(self._stats[HP]) + "/" + str(self._stats[MAX_HP])
+    def get_mp_string(self):
+        return str(self._stats[MP]) + "/" + str(self._stats[MAX_MP])
     def get_level(self):
         return self._stats[LEVEL]
     def get_gold(self):
@@ -145,14 +151,21 @@ class Entity:
         self._stats[GOLD] -= amount
         if self._stats[GOLD] < 0:
             self._stats[GOLD] = 0
+    def spend_gold(self, amount):
+        """
+        spend an amount of gold
+        """
+        if self.gold_check(amount):
+            self._stats[GOLD] -= amount
+            self.gold_cap()
+            return True
+        else:
+            return False
     def gold_check(self, amount):
         """
         Check if gold is greater than some amount
         """
-        
-        self._stats[GOLD] -= amount
-        if self._stats[GOLD] < 0:
-            self._stats[GOLD] = 0
+        return self._stats[GOLD] >= amount
 
     # implementing options...
 
@@ -164,8 +177,8 @@ class Entity:
             self.attack(other)
         elif self._choice == DEFEND:
             self.defend()
-        #elif self._choice == ITEM:
-        #    self.use_item()
+        elif self._choice == ITEM:
+            self.use_item()
         elif self._choice == SKILL:
             self.use_skill(skill)
         #elif self._choice == FLEE: # - implement in battle? or here? you'd exit the current battle essentially, losing gold if you have any 
@@ -226,6 +239,12 @@ class Entity:
         """
     # player should also have use_item and flee and check stats, along with overworld options
     # monsters may have a different flee
+
+    def use_item(self, item, other=None):
+        if (item.targets_opponent() and other is not None):
+            item.use(other)
+        else:
+            item.use(self)
 
     def speed_check(self, other):
         """
@@ -353,12 +372,12 @@ class Entity:
         elif self._stats[MP] < 0:
             self._stats[MP] = 0
 
-    def gold_cap(self, amount=0):
+    def gold_cap(self, amount=-1):
         """
-        if gold is above a certain amount MP, make it that amount. - for a gold cap or something
+        if gold is above a certain amount, make it that amount. - for a gold cap or something
         if gold is below 0, make it 0
         """
-        if self._stats[GOLD] > amount and amount != 0:
+        if self._stats[GOLD] > amount and amount != -1:
                 self._stats[GOLD] = amount
         elif self._stats[GOLD] < 0:
             self._stats[GOLD] = 0

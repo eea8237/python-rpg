@@ -10,6 +10,7 @@ import element
 from status_effect import *
 from entity import *
 from random import *
+from enum import *
 
 DAMAGE = "Damaging"
 HEAL = "Heal"
@@ -85,32 +86,33 @@ class Skill:
     def reverse_target(self):
         self.__target_self = not self.__target_self
 
-WEAKEN_FOE = Skill("Weaken Foe", 5, 0, element.NONE, StatusEffect.WEAKEN, 1, STATUS_EFFECT)
-DECAY_FOE = Skill("Decay Foe", 5, 0, element.NONE, StatusEffect.DECAY, 1, STATUS_EFFECT)
-DISQUIET_FOE = Skill("Disquiet Foe", 5, 0, element.NONE, StatusEffect.DISQUIET, 1, STATUS_EFFECT)
-SLOW_FOE = Skill("Slow Foe", 5, 0, element.NONE, StatusEffect.SLOW, 1, STATUS_EFFECT)
-POISON_FOE = Skill("Poison Foe", 10, 0, element.NONE, StatusEffect.POISON, 1, STATUS_EFFECT)
-DRAIN_FOE = Skill("Drain Foe", 10, 0, element.NONE, StatusEffect.DRAIN, 1, STATUS_EFFECT)
-FREEZE_FOE = Skill("Freeze Foe", 15, 0, element.NONE, StatusEffect.FREEZE, 1, STATUS_EFFECT)
-# Positive - maybe there should also be a variable declaring target
-STRENGTHEN_SELF = Skill("Strengthen Self", 5, 0, element.NONE, StatusEffect.STRENGTHEN, 1, STATUS_EFFECT)
-FORTIFY_SELF = Skill("Fortify  Self", 5, 0, element.NONE, StatusEffect.FORTIFY, 1, STATUS_EFFECT)
-EMPOWER_SELF = Skill("Empower Self", 5, 0, element.NONE, StatusEffect.EMPOWER, 1, STATUS_EFFECT)
-HASTEN_SELF = Skill("Hasten Self", 5, 0, element.NONE, StatusEffect.HASTEN, 1, STATUS_EFFECT)
-REGENERATE_SELF = Skill("Regenerate Self", 10, 0, element.NONE, StatusEffect.REGENERATE, 1, STATUS_EFFECT)
-FOCUS_SELF = Skill("Focus Self", 10, 0, element.NONE, StatusEffect.FOCUS, 1, STATUS_EFFECT)
-SLIPPERY_SELF = Skill("Slip Self", 15, 0, element.NONE, StatusEffect.SLIPPERY, 1, STATUS_EFFECT)
+class SkillList(Enum):
+    WEAKEN_FOE = Skill("Weaken Foe", 5, 0, element.NONE, StatusEffect.WEAKEN, 1, STATUS_EFFECT)
+    DECAY_FOE = Skill("Decay Foe", 5, 0, element.NONE, StatusEffect.DECAY, 1, STATUS_EFFECT)
+    DISQUIET_FOE = Skill("Disquiet Foe", 5, 0, element.NONE, StatusEffect.DISQUIET, 1, STATUS_EFFECT)
+    SLOW_FOE = Skill("Slow Foe", 5, 0, element.NONE, StatusEffect.SLOW, 1, STATUS_EFFECT)
+    POISON_FOE = Skill("Poison Foe", 10, 0, element.NONE, StatusEffect.POISON, 1, STATUS_EFFECT)
+    DRAIN_FOE = Skill("Drain Foe", 10, 0, element.NONE, StatusEffect.DRAIN, 1, STATUS_EFFECT)
+    FREEZE_FOE = Skill("Freeze Foe", 15, 0, element.NONE, StatusEffect.FREEZE, 1, STATUS_EFFECT)
+    # Positive - maybe there should also be a variable declaring target
+    STRENGTHEN_SELF = Skill("Strengthen Self", 5, 0, element.NONE, StatusEffect.STRENGTHEN, 1, STATUS_EFFECT)
+    FORTIFY_SELF = Skill("Fortify  Self", 5, 0, element.NONE, StatusEffect.FORTIFY, 1, STATUS_EFFECT)
+    EMPOWER_SELF = Skill("Empower Self", 5, 0, element.NONE, StatusEffect.EMPOWER, 1, STATUS_EFFECT)
+    HASTEN_SELF = Skill("Hasten Self", 5, 0, element.NONE, StatusEffect.HASTEN, 1, STATUS_EFFECT)
+    REGENERATE_SELF = Skill("Regenerate Self", 10, 0, element.NONE, StatusEffect.REGENERATE, 1, STATUS_EFFECT)
+    FOCUS_SELF = Skill("Focus Self", 10, 0, element.NONE, StatusEffect.FOCUS, 1, STATUS_EFFECT)
+    SLIPPERY_SELF = Skill("Slip Self", 15, 0, element.NONE, StatusEffect.SLIPPERY, 1, STATUS_EFFECT)
 
-BIG_STRIKE = Skill("Big Strike", 5, 50, element.NONE, None, 1, DAMAGE) # might change skill calc to just use magic for power?
-MULTI_STRIKE = Skill("Multi Strike", 5, 20, element.NONE, None, 3, DAMAGE)
+    BIG_STRIKE = Skill("Big Strike", 5, 50, element.NONE, None, 1, DAMAGE) # might change skill calc to just use magic for power?
+    MULTI_STRIKE = Skill("Multi Strike", 5, 20, element.NONE, None, 3, DAMAGE)
 
-HEAL = Skill("Heal", 5, 50, element.LIGHT, None, 1, HEAL) # side note, heal skills should target self
+    HEAL = Skill("Heal", 5, 50, element.LIGHT, None, 1, HEAL) # side note, heal skills should target self
 
-WATER = Skill("Water", 5, 50, element.WATER, None, 1, DAMAGE)
-FIRE = Skill("Fire", 5, 50, element.FIRE, None, 1, DAMAGE)
-PLANT = Skill("Plant", 5, 50, element.PLANT, None, 1, DAMAGE)
-EARTH = Skill("Earth", 5, 50, element.EARTH, None, 1, DAMAGE)
-AIR = Skill("Air", 5, 50, element.AIR, None, 1, DAMAGE)
-LIGHTNING = Skill("Lightning", 5, 50, element.LIGHTNING, None, 1, DAMAGE)
-LIGHT = Skill("Light", 5, 50, element.LIGHT, None, 1, DAMAGE)
-DARK = Skill("Dark", 5, 50, element.DARK, None, 1, DAMAGE)
+    WATER = Skill("Water", 5, 50, element.WATER, None, 1, DAMAGE)
+    FIRE = Skill("Fire", 5, 50, element.FIRE, None, 1, DAMAGE)
+    PLANT = Skill("Plant", 5, 50, element.PLANT, None, 1, DAMAGE)
+    EARTH = Skill("Earth", 5, 50, element.EARTH, None, 1, DAMAGE)
+    AIR = Skill("Air", 5, 50, element.AIR, None, 1, DAMAGE)
+    LIGHTNING = Skill("Lightning", 5, 50, element.LIGHTNING, None, 1, DAMAGE)
+    LIGHT = Skill("Light", 5, 50, element.LIGHT, None, 1, DAMAGE)
+    DARK = Skill("Dark", 5, 50, element.DARK, None, 1, DAMAGE)

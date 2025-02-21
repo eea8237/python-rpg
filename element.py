@@ -78,7 +78,7 @@ class Element():
         
 
 
-
+# make this an enum probably
 NONE = Element(NAMES_LIST[0], None, NAMES_LIST[9]) # resisted by all (except none)
 WATER = Element(NAMES_LIST[1], NAMES_LIST[2], NAMES_LIST[3]) # effective against fire, resisted by plant
 FIRE = Element(NAMES_LIST[2], NAMES_LIST[3], NAMES_LIST[1]) # effective - plant, resisted - water 

@@ -20,7 +20,7 @@ def main():
     e2 = entity.Entity("E2", element.WATER,[entity.FIGHT, entity.DEFEND, entity.SKILL], [skill.WEAKEN_FOE, skill.BIG_STRIKE], None)
     #p = player.Player(input("Enter name: "))
     p = player.Player()
-    print(repr(e1))
+    '''print(repr(e1))
     p.add_exp(25)
     print(repr(p))
     print(p.get_to_next_level())
@@ -28,7 +28,12 @@ def main():
     print(p.get_to_next_level())
     p.level_up()
     print(repr(p))
-    print(p)
+    print(p)'''
+    s = town.Shop("Test")
+    i = town.Inn("Test", 50)
+    t = town.Town("Town", s, i)
+    print(repr(t))
+    t.interact(p)
     
     '''print(repr(e1))
     print(repr(e2))

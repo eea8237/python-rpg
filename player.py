@@ -87,6 +87,19 @@ class Player(Entity):
                     self._items[item.get_name()][1] -= 1
                 else:
                     self._items.pop(item)
+    
+    def item_check(self, item, key_item = False):
+        if key_item:
+            if item.get_name() in self._key_items:
+                return True
+            else:
+                return False
+        else:
+            if item.get_name() in self._items:
+                return True
+            else:
+                return False
+        
 
     def level_up_check(self):
         """

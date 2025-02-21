@@ -6,6 +6,156 @@ A town has a shop, an inn, and an entrance into the wilds.
 import entity
 import player
 import monster
+
+# answers
+# maybe put these in a separate class
+WILDS = {"w", "wilds", "fight", "f"}
+SHOP = {"s", "shop"}
+INN = {"i", "inn", "rest", "r"}
+YES = {"y", "yes"}
+NO = {"n", "no"}
+BUY = {"b", "buy"}
+SELL = {'s', "sell"}
+SHOW_ITEMS = {"show", "items", "item", "show items", "show item", "see", "see items", "see item"}
+STAY = {"s", "stay", "rest", "r"}
+LEAVE = {"l", "leave", "exit", "e"}
+QUIT = {'q', 'quit'}
+STATS = {"stats", "stat"}
+TOWN_ANSWERS = "Town Answers"
+INN_ANSWERS = "Inn Answers"
+SHOP_ANSWERS = "Shop Answers"
+YES_NO_ANSWERS = "Yes/No Answers"
+class Town:
+    
+    __slots__ = ["__name", "__shop", "__inn", "__world", "__wilds", "__options"] # maybe world should just be an enum of names
+    def __init__(self, name, shop, inn, world=None, wilds=None):
+        self.__name = name
+        self.__shop = shop
+        self.__inn = inn
+        self.__world = world
+        self.__wilds = wilds
+
+    def __str__(self):
+        return self.__name
+    def __repr__(self):
+        return "Town: " + \
+            "\n   Name=" + self.__name + \
+            "\n   Shop=" + str(self.__shop) + \
+            "\n   Inn=" + str(self.__inn) + \
+            "\n   Wilds=" + str(self.__wilds) + \
+            "\n   World=" + str(self.__world)
+
+    def __valid_answer(self, answer, answer_type):
+        if answer_type == TOWN_ANSWERS:
+            return answer in WILDS or answer in SHOP or answer in INN or answer in STATS or answer in QUIT
+        elif answer_type == INN_ANSWERS:
+            return answer in STAY or answer in LEAVE
+        elif answer_type == SHOP_ANSWERS:
+            return answer in BUY or answer in SELL or answer in LEAVE or answer in SHOW_ITEMS
+        elif answer_type == YES_NO_ANSWERS:
+            return answer in YES or answer in NO
+        
+    def __answer_prompt(self, prompt, answer_type):
+        answer = ""
+        while not self.__valid_answer(answer, answer_type):
+            answer = input(prompt)
+            answer = answer.lower()
+            if not self.__valid_answer(answer, answer_type):
+                print(answer, "is an invalid answer.")
+        return answer
+
+    def interact(self, player):
+        """
+        Player should interact with a town
+        """
+        answer = ""
+        while answer not in QUIT:
+            print("You arrive at", self.__name, "Village! What will you do?")
+            answer = self.__answer_prompt("Shop, enter wilds, rest at inn: ", TOWN_ANSWERS)
+            print()
+            if answer in STATS:
+                stats = player.get_stats()
+                print(str(player) + ":")
+                for stat in stats:
+                    print("   " + stat + ": " + str(stats[stat]))
+            elif answer in INN:
+                print("You enter the", str(self.__inn), "Inn. A night's stay costs", self.__inn.get_cost(), "gold.")
+                answer = self.__answer_prompt("Rest at the inn or leave?: ", INN_ANSWERS)
+                if answer in STAY:
+                    if player.gold_check(self.__inn.get_cost()):
+                        self.__inn.stay(player)
+                        print("You spend", self.__inn.get_cost(), "gold and stay the night at the inn.")
+                        print("HP fully restored!", player.get_hp_string())
+                        print("You return to the village, renewed.")
+                    else:
+                        print("You shake your head. You can't afford a stay at the inn, you don't have enough gold!")
+                        print("You apologize to the shopkeep for wasting their time. You head back to the village in shame.")
+                else:
+                    print("You shake your head. There's a dragon to slay, after all.")
+                    print("You return to the village with haste.")
+            elif answer in SHOP:
+                print("You enter the", str(self.__shop), "shop. After a moment of admiring it's quaint interior, you notice the shopkeep giving you a look.")
+                print("What do you want to do?")
+                while answer not in LEAVE:
+                    answer = self.__answer_prompt("Buy, sell, see items, or leave: ", SHOP_ANSWERS)
+                    if answer in SHOW_ITEMS:
+                        print(str(self.__shop), "'s inventory:")
+                        print(self.__shop.get_items())
+                        print()
+                        print(str(player) + "'s inventory:")
+                        print(player.get_items())
+                    elif answer in BUY:
+                        # do something to check for an item to buy
+                        # ask player for what item to buy
+                        item = ""
+                        while item not in QUIT and item not in self.__shop.get_items():
+                            print(item, "isn't available.")
+                        self.__shop.purchase_item(player, item)
+
+                        
+
+
+            print()
+
+        
+            
+        """
+        print("You arrive at the village! What will you do?")
+        answer = input("Go to the shop, go fight monsters, go to inn: ")
+        if answer == "leave" or answer == "Leave" or answer == "Fight":
+            answer = "fight"
+        elif answer == "Shop" or answer == "Buy" or answer == "buy":
+            answer = "shop"
+        elif answer == "Inn" or answer == "Rest" or answer == "rest":
+            answer = "inn"
+        while answer != "shop" and answer != "fight" and answer != "inn" and answer != "dev cheats":
+            print(answer, "is an invalid answer.")
+            answer = input("Go to the shop, go fight monsters, go to inn: ")
+            if answer == "leave" or answer == "Leave" or answer == "Fight":
+                answer = "fight"
+            elif answer == "Shop" or answer == "Buy" or answer == "buy":
+                answer = "shop"
+            elif answer == "Inn" or answer == "Rest" or answer == "rest":
+                answer = "inn"
+        if answer == "shop":
+            shop()
+        elif answer == "fight":
+            fight()
+        elif answer == "inn":
+            inn()
+        elif answer == "dev cheats":
+            devCheats()
+        if level > 100:
+            print("You've earned enough Levels to challenge the evil Dragon King!")
+            dragon()
+            if victory == 1:
+                break
+    if victory == 1:
+        print("Congradulations!")
+        print("You freed the village from the evil Dragon King!")
+        """
+
+
 """
 # Shop handling.
 def shop():
@@ -211,20 +361,29 @@ class Shop():
         self.__items = items # item is a dict containing the item name, then the item itself + stock? stock can reset when the world changes, or when the player gets a game over
         self.__sale = False
 
+    def __str__(self):
+        return self.__name
+    def __repr__(self):
+        items = [item.get_name() for item in self.__items]
+        return "Shop: " + \
+            "\n   Name=" + self.__name + \
+            "\n   Items=" + str(items) + \
+            "\n   Sale?=" + str(self.__sale)
+
     def get_items(self):
         return dict(self.__items)
     
     def purchase_item(self, player, item):
         if item in self.__items: # check if item (string) is in shop
-            if player.get_gold() >= self.__items[item][0].get_cost(): # check if player has enough dough
+            success = player.spend_gold(self.__items[item][0].get_cost())
+            if success:
                 if self.__items[item][1] > 0: # check stock
                     # add item to player items
-                    player.add_item(item) # show purchased item
-                    player.lose_gold(item) # maybe print gold afterwards
+                    player.add_item(self.__items[item][0]) # show purchased item, maybe print gold afterwards
                     return True # because it's a success
                 else:
                     # presumably check this tuple to see why it failed
-                    # in this case, the item is out of stock
+                    # in this case, the player had enough money, but item is out of stock
                     return False, 2
             else:
                 # player doesn't have enough money
@@ -235,7 +394,14 @@ class Shop():
         
     # method for selling items
     # keep in mind you can't sell an item with a sell value of 0
-
+    def sell_item(self, player, item):
+        if item.get_cost() == 0:
+            return False # can't sell this item
+        else:
+            if player.item_check(item): # include way to remove multiple items?
+                player.remove_item(item)
+                player.addGold(item.get_sell_value())
+                return item.get_sell_value()
 
 
 class Inn():
@@ -246,43 +412,25 @@ class Inn():
 
     def __str__(self):
         return self.__name
+    def __repr__(self):
+        return "Inn: " + \
+            "\n   Name=" + self.__name + \
+            "\n   Cost=" + str(self.__cost)
+
     def get_cost(self):
         return self.__cost
     
     # method for recovering player
-    """
-    def inn():
-    global gold
-    global hp
-    global maxhp
-    global answer
-    if hp == 0:
-        # For when the inn is called by gameover()
-        hp = maxhp
-        print("You awaken in the inn with your HP restored!")
-    else:
-        print("The inn charges", level * 5, "gold for a full night's rest.")
-        answer = input("Stay at inn, leave: ")
-        if answer == "Stay":
-            answer = "stay"
-        if answer == "Leave":
-            answer = "leave"
-        while answer != "stay" and answer != "leave":
-            print(answer, "is an invalid answer.")
-            answer = input("Stay at inn, leave: ")
-        if answer == "stay":
-            if gold < level * 5:
-                print("You don't have enough gold.")
-            else:
-                gold -= level * 5
-                hp = maxhp
-                hpCheck()
-                print("Your HP was restored!")
-    """
     def stay(self, player):
         # player should come here for free if game over
-        if player.get_hp() <= 0:
+        if not player.is_conscious():
             player.heal_full()
-        else
+        else:
+            player.spend_gold(self.__cost)
+            player.heal_full()
+
     # maybe method for coming here after game over...? or should that be for player?
     # maybe include game over boolean
+
+
+    

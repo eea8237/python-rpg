@@ -5,61 +5,6 @@ Author: Esther Arimoro
 from random import *
 from element import *
 
-
-
-class Stat:
-    pass
-
-class Item:
-    pass
-
-class StatusEffect:
-    pass
-
-class Armor:
-    pass
-
-class Player:
-    __slots__ = ["__max_hp", "__hp", "__attack", "__defense", "__magic", "__mp", "__speed", "__sword", "__shield", "__wand", "__items", "__battle_items", "__exp", "__level", "__gold", "__element", "__armor"]
-    
-    def __init__(self):
-        self.__max_hp = 10
-        self.__hp = 10
-        self.__attack = 5
-        self.__defense = 5
-        self.__magic = 5
-        self.__mp = 10
-        self.__speed = 5
-        
-        self.__gold = 0
-        self.__exp = 0
-        self.__level = 1
-        self.__sword = 0
-        self.__shield = 0
-        self.__wand = 0
-        
-        self.__items = set()
-        self.__battle_items = set()
-        self.__armor = Armor()
-        self.__element = Element()
-
-class Monster:
-    pass
-
-class Town:
-    """
-    At a town, the player can rest or buy items.
-    """
-    pass
-
-class Wilds:
-    pass
-
-class World:
-    """
-    A world consists of a town and the wilds.
-    """
-    pass
 # Defines the starting values of all the global variables in the code.
 level = 0
 exp = 0
