@@ -245,6 +245,7 @@ class Entity:
             item.use(other)
         else:
             item.use(self)
+        
 
     def speed_check(self, other):
         """

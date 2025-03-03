@@ -100,6 +100,15 @@ class Player(Entity):
             else:
                 return False
         
+    def use_item(self, item, other=None):
+        if (item.targets_opponent() and other is not None):
+            item.use(other)
+        else:
+            item.use(self)
+        if (item.get_is_key_item()):
+            item.disable()
+        else:
+            self.remove_item(item)
 
     def level_up_check(self):
         """
