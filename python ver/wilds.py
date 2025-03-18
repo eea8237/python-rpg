@@ -15,6 +15,9 @@ Rest spots allow the player to use items they bought.
     # monster turn method
     # battling method
 
+class Wilds:
+    __slots__ = ["__world"]
+
 # fairy fountain class
     # recovery method
 

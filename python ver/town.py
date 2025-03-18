@@ -111,7 +111,9 @@ class Town:
                         while item not in QUIT and item not in self.__shop.get_items():
                             print(item, "isn't available.")
                         self.__shop.purchase_item(player, item)
-
+            elif answer in WILDS:
+                # do something depending on whether or not the player has a key
+                self.__wilds.battle()
                         
 
 

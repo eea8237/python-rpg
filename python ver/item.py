@@ -310,12 +310,14 @@ class ItemList(Enum):
     SPD_DROP = StatChange(entity.SPEED, POWER_DOWN, StatChange.PRICE, "Halves opponent's Speed temporarily.")
     '''
     weapons that change the element of the player's default attack
-    charm that revives the player once when their HP is reduced to 0 
     keys that allow the player to fight the area's boss
         These only have a chance of dropping once the player's fought a certain amount of monsters in an area
         drop chance increases the more monsters the player fights after that
         Once the player has a boss key, they can't get any more
     '''
+    # keys
+    KEY = Key("Boss Key", True, "A key that shows the way to a boss.")
+    
     # potions
     HP_POTION_I = Potion(RANK_I, (entity.HP, Potion.RANK_I_AMOUNT))
     HP_POTION_II = Potion(RANK_II, (entity.HP, Potion.RANK_II_AMOUNT))

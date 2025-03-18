@@ -52,6 +52,7 @@ class Player(Entity):
     
     def add_exp(self, amount):
         self._stats[EXP] += amount
+        self.level_up()
     
     def add_item(self, item, key_item=False):
         # will also need to change this if we're making it a dict of lists
